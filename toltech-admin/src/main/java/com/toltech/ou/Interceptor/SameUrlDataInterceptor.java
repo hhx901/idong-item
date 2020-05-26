@@ -14,12 +14,9 @@ import java.util.Map;
  * @Version 1.0
  */
 @Component
-public class SameUrlDataInterceptor extends RepeatSubmitInterceptor
-{
+public class SameUrlDataInterceptor extends RepeatSubmitInterceptor {
     public final String REPEAT_PARAMS = "repeatParams";
-
     public final String REPEAT_TIME = "repeatTime";
-
     public final String SESSION_REPEAT_KEY = "repeatData";
 
     /**
@@ -29,34 +26,27 @@ public class SameUrlDataInterceptor extends RepeatSubmitInterceptor
      */
     private int intervalTime = 10;
 
-    public void setIntervalTime(int intervalTime)
-    {
+    public void setIntervalTime(int intervalTime) {
         this.intervalTime = intervalTime;
     }
 
     @SuppressWarnings("unchecked")
     @Override
-    public boolean isRepeatSubmit(HttpServletRequest request)
-    {
+    public boolean isRepeatSubmit(HttpServletRequest request) {
         // 本次参数及系统时间
         String nowParams = JSONObject.toJSONString(request.getParameterMap());
         Map<String, Object> nowDataMap = new HashMap<String, Object>();
         nowDataMap.put(REPEAT_PARAMS, nowParams);
         nowDataMap.put(REPEAT_TIME, System.currentTimeMillis());
-
         // 请求地址（作为存放session的key值）
         String url = request.getRequestURI();
-
         HttpSession session = request.getSession();
         Object sessionObj = session.getAttribute(SESSION_REPEAT_KEY);
-        if (sessionObj != null)
-        {
+        if (sessionObj != null) {
             Map<String, Object> sessionMap = (Map<String, Object>) sessionObj;
-            if (sessionMap.containsKey(url))
-            {
+            if (sessionMap.containsKey(url)) {
                 Map<String, Object> preDataMap = (Map<String, Object>) sessionMap.get(url);
-                if (compareParams(nowDataMap, preDataMap) && compareTime(nowDataMap, preDataMap))
-                {
+                if (compareParams(nowDataMap, preDataMap) && compareTime(nowDataMap, preDataMap)) {
                     return true;
                 }
             }
