@@ -10,11 +10,9 @@ import org.quartz.JobExecutionContext;
  * @Date: 2020/5/26 13:20
  * @Version 1.0
  */
-public class QuartzJobExecution extends AbstractQuartzJob
-{
+public class QuartzJobExecution extends AbstractQuartzJob {
     @Override
-    protected void doExecute(JobExecutionContext context, Job job) throws Exception
-    {
+    protected void doExecute(JobExecutionContext context, Job job) throws Exception {
         JobInvokeUtil.invokeMethod(job);
     }
 }

@@ -18,15 +18,12 @@ public class TreeUtils {
      * @param parentId 传入的父节点ID
      * @return String
      */
-    public static List<Menu> getChildPerms(List<Menu> list, int parentId)
-    {
+    public static List<Menu> getChildPerms(List<Menu> list, int parentId) {
         List<Menu> returnList = new ArrayList<Menu>();
-        for (Iterator<Menu> iterator = list.iterator(); iterator.hasNext();)
-        {
+        for (Iterator<Menu> iterator = list.iterator(); iterator.hasNext();) {
             Menu t = (Menu) iterator.next();
             // 一、根据传入的某个父节点ID,遍历该父节点的所有子节点
-            if (t.getParentId() == parentId)
-            {
+            if (t.getParentId() == parentId) {
                 recursionFn(list, t);
                 returnList.add(t);
             }
@@ -40,19 +37,15 @@ public class TreeUtils {
      * @param list
      * @param t
      */
-    private static void recursionFn(List<Menu> list, Menu t)
-    {
+    private static void recursionFn(List<Menu> list, Menu t) {
         // 得到子节点列表
         List<Menu> childList = getChildList(list, t);
         t.setChildren(childList);
-        for (Menu tChild : childList)
-        {
-            if (hasChild(list, tChild))
-            {
+        for (Menu tChild : childList) {
+            if (hasChild(list, tChild)) {
                 // 判断是否有子节点
                 Iterator<Menu> it = childList.iterator();
-                while (it.hasNext())
-                {
+                while (it.hasNext()) {
                     Menu n = (Menu) it.next();
                     recursionFn(list, n);
                 }

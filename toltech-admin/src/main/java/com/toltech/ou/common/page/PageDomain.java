@@ -20,10 +20,8 @@ public class PageDomain {
     /** 排序的方向 "desc" 或者 "asc". */
     private String isAsc;
 
-    public String getOrderBy()
-    {
-        if (StringUtils.isEmpty(orderByColumn))
-        {
+    public String getOrderBy() {
+        if (StringUtils.isEmpty(orderByColumn)) {
             return "";
         }
         return StringUtils.toUnderScoreCase(orderByColumn) + " " + isAsc;

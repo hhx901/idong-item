@@ -10,19 +10,15 @@ import java.util.Map;
  * @Date: 2020/5/26 14:08
  * @Version 1.0
  */
-public class DynamicDataSource extends AbstractRoutingDataSource
-{
-    public DynamicDataSource(DataSource defaultTargetDataSource, Map<Object, Object> targetDataSources)
-    {
+public class DynamicDataSource extends AbstractRoutingDataSource {
+    public DynamicDataSource(DataSource defaultTargetDataSource, Map<Object, Object> targetDataSources) {
         super.setDefaultTargetDataSource(defaultTargetDataSource);
         super.setTargetDataSources(targetDataSources);
         super.afterPropertiesSet();
     }
 
     @Override
-    protected Object determineCurrentLookupKey()
-    {
+    protected Object determineCurrentLookupKey() {
         return DynamicDataSourceContextHolder.getDataSourceType();
     }
-
 }

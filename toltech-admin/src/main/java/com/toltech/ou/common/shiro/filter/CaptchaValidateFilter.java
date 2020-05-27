@@ -37,8 +37,7 @@ public class CaptchaValidateFilter extends AccessControlFilter {
     }
 
     @Override
-    public boolean onPreHandle(ServletRequest request, ServletResponse response, Object mappedValue) throws Exception
-    {
+    public boolean onPreHandle(ServletRequest request, ServletResponse response, Object mappedValue) throws Exception {
         request.setAttribute(ShiroConstants.CURRENT_ENABLED, captchaEnabled);
         request.setAttribute(ShiroConstants.CURRENT_TYPE, captchaType);
         return super.onPreHandle(request, response, mappedValue);
@@ -46,31 +45,26 @@ public class CaptchaValidateFilter extends AccessControlFilter {
 
     @Override
     protected boolean isAccessAllowed(ServletRequest request, ServletResponse response, Object mappedValue)
-            throws Exception
-    {
+            throws Exception {
         HttpServletRequest httpServletRequest = (HttpServletRequest) request;
         // 验证码禁用 或不是表单提交 允许访问
-        if (captchaEnabled == false || !"post".equals(httpServletRequest.getMethod().toLowerCase()))
-        {
+        if (captchaEnabled == false || !"post".equals(httpServletRequest.getMethod().toLowerCase())) {
             return true;
         }
         return validateResponse(httpServletRequest, httpServletRequest.getParameter(ShiroConstants.CURRENT_VALIDATECODE));
     }
 
-    public boolean validateResponse(HttpServletRequest request, String validateCode)
-    {
+    public boolean validateResponse(HttpServletRequest request, String validateCode) {
         Object obj = ShiroUtils.getSession().getAttribute(Constants.KAPTCHA_SESSION_KEY);
         String code = String.valueOf(obj != null ? obj : "");
-        if (StringUtils.isEmpty(validateCode) || !validateCode.equalsIgnoreCase(code))
-        {
+        if (StringUtils.isEmpty(validateCode) || !validateCode.equalsIgnoreCase(code)) {
             return false;
         }
         return true;
     }
 
     @Override
-    protected boolean onAccessDenied(ServletRequest request, ServletResponse response) throws Exception
-    {
+    protected boolean onAccessDenied(ServletRequest request, ServletResponse response) throws Exception {
         request.setAttribute(ShiroConstants.CURRENT_CAPTCHA, ShiroConstants.CAPTCHA_ERROR);
         return true;
     }

@@ -27,8 +27,7 @@ public class AsyncFactory {
      * @param session 在线用户会话
      * @return 任务task
      */
-    public static TimerTask syncSessionToDb(final OnlineSession session)
-    {
+    public static TimerTask syncSessionToDb(final OnlineSession session) {
         return new TimerTask()
         {
             @Override

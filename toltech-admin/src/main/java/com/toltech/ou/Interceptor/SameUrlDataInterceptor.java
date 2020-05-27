@@ -60,8 +60,7 @@ public class SameUrlDataInterceptor extends RepeatSubmitInterceptor {
     /**
      * 判断参数是否相同
      */
-    private boolean compareParams(Map<String, Object> nowMap, Map<String, Object> preMap)
-    {
+    private boolean compareParams(Map<String, Object> nowMap, Map<String, Object> preMap) {
         String nowParams = (String) nowMap.get(REPEAT_PARAMS);
         String preParams = (String) preMap.get(REPEAT_PARAMS);
         return nowParams.equals(preParams);
@@ -70,12 +69,10 @@ public class SameUrlDataInterceptor extends RepeatSubmitInterceptor {
     /**
      * 判断两次间隔时间
      */
-    private boolean compareTime(Map<String, Object> nowMap, Map<String, Object> preMap)
-    {
+    private boolean compareTime(Map<String, Object> nowMap, Map<String, Object> preMap) {
         long time1 = (Long) nowMap.get(REPEAT_TIME);
         long time2 = (Long) preMap.get(REPEAT_TIME);
-        if ((time1 - time2) < (this.intervalTime * 1000))
-        {
+        if ((time1 - time2) < (this.intervalTime * 1000)) {
             return true;
         }
         return false;

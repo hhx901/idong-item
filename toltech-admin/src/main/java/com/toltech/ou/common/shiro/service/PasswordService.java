@@ -41,14 +41,10 @@ public class PasswordService {
         loginRecordCache = cacheManager.getCache(ShiroConstants.LOGINRECORDCACHE);
     }
 
-    public void validate(User user, String password)
-    {
+    public void validate(User user, String password) {
         String loginName = user.getLoginName();
-
         AtomicInteger retryCount = loginRecordCache.get(loginName);
-
-        if (retryCount == null)
-        {
+        if (retryCount == null) {
             retryCount = new AtomicInteger(0);
             loginRecordCache.put(loginName, retryCount);
         }
@@ -57,30 +53,24 @@ public class PasswordService {
             throw new UserPasswordRetryLimitExceedException(Integer.valueOf(maxRetryCount).intValue());
         }
 
-        if (!matches(user, password))
-        {
+        if (!matches(user, password)) {
             AsyncManager.me().execute(AsyncFactory.recordLogininfor(loginName, Constants.LOGIN_FAIL, MessageUtils.message("user.password.retry.limit.count", retryCount)));
             loginRecordCache.put(loginName, retryCount);
             throw new UserPasswordNotMatchException();
-        }
-        else
-        {
+        } else {
             clearLoginRecordCache(loginName);
         }
     }
 
-    public boolean matches(User user, String newPassword)
-    {
+    public boolean matches(User user, String newPassword) {
         return user.getPassword().equals(encryptPassword(user.getLoginName(), newPassword, user.getSalt()));
     }
 
-    public void clearLoginRecordCache(String username)
-    {
+    public void clearLoginRecordCache(String username) {
         loginRecordCache.remove(username);
     }
 
-    public String encryptPassword(String username, String password, String salt)
-    {
+    public String encryptPassword(String username, String password, String salt) {
         return new Md5Hash(username + password + salt).toHex().toString();
     }
 
@@ -89,8 +79,7 @@ public class PasswordService {
         loginRecordCache.remove(loginName);
     }
 
-    public static void main(String[] args)
-    {
+    public static void main(String[] args) {
         System.out.println(new PasswordService().encryptPassword("admin", "admin123", "111111"));
         System.out.println(new PasswordService().encryptPassword("ry", "admin123", "222222"));
     }

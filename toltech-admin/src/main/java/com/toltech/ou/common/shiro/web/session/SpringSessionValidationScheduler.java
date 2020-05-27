@@ -47,8 +47,7 @@ public class SpringSessionValidationScheduler implements SessionValidationSchedu
     private long sessionValidationInterval;
 
     @Override
-    public boolean isEnabled()
-    {
+    public boolean isEnabled() {
         return this.enabled;
     }
 
@@ -62,8 +61,7 @@ public class SpringSessionValidationScheduler implements SessionValidationSchedu
      *
      * @param sessionValidationInterval
      */
-    public void setSessionValidationInterval(long sessionValidationInterval)
-    {
+    public void setSessionValidationInterval(long sessionValidationInterval) {
         this.sessionValidationInterval = sessionValidationInterval;
     }
 
@@ -80,10 +78,8 @@ public class SpringSessionValidationScheduler implements SessionValidationSchedu
         try {
             executorService.scheduleAtFixedRate(new Runnable() {
                 @Override
-                public void run()
-                {
-                    if (enabled)
-                    {
+                public void run() {
+                    if (enabled) {
                         sessionManager.validateSessions();
                     }
                 }

@@ -23,21 +23,16 @@ public abstract class AbstractQuartzJob implements org.quartz.Job {
     private static ThreadLocal<Date> threadLocal = new ThreadLocal<>();
 
     @Override
-    public void execute(JobExecutionContext context) throws JobExecutionException
-    {
+    public void execute(JobExecutionContext context) throws JobExecutionException {
         Job job = new Job();
         BeanUtils.copyBeanProp(job, context.getMergedJobDataMap().get(ScheduleConstants.TASK_PROPERTIES));
-        try
-        {
+        try {
             before(context, job);
-            if (job != null)
-            {
+            if (job != null) {
                 doExecute(context, job);
             }
           //  after(context, job, null);
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             log.error("任务执行异常  - ：", e);
          //   after(context, job, e);
         }
